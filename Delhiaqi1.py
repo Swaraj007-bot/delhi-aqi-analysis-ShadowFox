@@ -8,14 +8,14 @@ RQ3: Which season experiences the worst air quality?
 import pandas as pd
 import matplotlib.pyplot as plt
 
-# ---------------- Load Data ----------------
+# Load Data 
 df = pd.read_csv("delhiaqi.csv")
 
 df["date"] = pd.to_datetime(df["date"])
 df["month"] = df["date"].dt.month
 df["year"] = df["date"].dt.year
 
-# ---------------- Season Mapping ----------------
+# Season Mapping 
 def get_season(month):
     if month in [11, 12, 1]:
         return "Winter"
@@ -28,14 +28,14 @@ def get_season(month):
 
 df["season"] = df["month"].apply(get_season)
 
-# ---------------- PM2.5 Statistics ----------------
+# PM2.5 Statistics 
 print("\nOverall PM2.5 Statistics:")
 print(df["pm2_5"].describe())
 
 print("\nSeason-wise PM2.5 Mean:")
 print(df.groupby("season")["pm2_5"].mean())
 
-# ---------------- PM2.5 Trend ----------------
+# PM2.5 Trend 
 plt.figure()
 plt.plot(df["date"], df["pm2_5"])
 plt.title("PM2.5 Trend in Delhi")
@@ -43,7 +43,7 @@ plt.xlabel("Date")
 plt.ylabel("PM2.5")
 plt.show()
 
-# ---------------- PM10 Trend ----------------
+# PM10 Trend
 plt.figure()
 plt.plot(df["date"], df["pm10"])
 plt.title("PM10 Trend in Delhi")
@@ -51,7 +51,7 @@ plt.xlabel("Date")
 plt.ylabel("PM10")
 plt.show()
 
-# ---------------- Season-wise PM2.5 Boxplot ----------------
+# Season-wise PM2.5 Boxplot
 plt.figure()
 df.boxplot(column="pm2_5", by="season")
 plt.title("Season-wise PM2.5 Distribution")
@@ -60,15 +60,16 @@ plt.xlabel("Season")
 plt.ylabel("PM2.5")
 plt.show()
 
-# ---------------- Pollutant Correlation ----------------
+# Pollutant Correlation
 pollutants = ["co", "no", "no2", "o3", "so2", "pm2_5", "pm10", "nh3"]
 corr = df[pollutants].corr()
 
 print("\nCorrelation Matrix:")
 print(corr)
 
-# ---------------- Key Insights ----------------
+# Key Insights
 print("\nKey Insights:")
 print("• PM2.5 levels peak during winter due to temperature inversion and emissions.")
 print("• Monsoon season shows improved air quality because of rainfall.")
 print("• PM2.5 and PM10 have strong correlation, indicating common pollution sources.")
+
